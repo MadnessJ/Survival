@@ -23,7 +23,7 @@ private GameObject whatSlotToEquip;
     public bool isOpen;
  
 
-    public bool isFull;
+    //public bool isFull;
  
     private void Awake()
     {
@@ -41,8 +41,6 @@ private GameObject whatSlotToEquip;
     void Start()
     {
         isOpen = false;
-        isFull = false;
-
 
         PopulateSlotList();
     }
@@ -51,7 +49,7 @@ private GameObject whatSlotToEquip;
     {
         foreach (Transform child in inventoryScreenUI.transform)
         {
-            if(child.CompareTag("slot"))
+            if(child.CompareTag("Slot"))
             {
                 slotList.Add(child.gameObject);
             }
@@ -81,21 +79,17 @@ private GameObject whatSlotToEquip;
     }
  public void AddToInventory(string itemName)
     {
-        if(checkIfFull())
-        {
-            isFull = true;
-            Debug.Log("Inventory is full");
-        }
-        else
-        {
-            whatSlotToEquip = FindNextEmptySlot();
+    whatSlotToEquip = FindNextEmptySlot();
 
-            itemToAdd = (GameObject)Instantiate(Resources.Load<GameObject>(itemName), whatSlotToEquip.transform.position,whatSlotToEquip.transform.rotation);
-            itemToAdd.transform.SetParent(whatSlotToEquip.transform);
+    itemToAdd = Instantiate(Resources.Load<GameObject>(itemName), whatSlotToEquip.transform.position,whatSlotToEquip.transform.rotation);
+    itemToAdd.transform.SetParent(whatSlotToEquip.transform);
 
-            itemList.Add(itemName);
-        }
-    }
+    itemList.Add(itemName);
+}
+
+
+
+
     private GameObject FindNextEmptySlot()
     {
         foreach(GameObject slot in slotList)
@@ -108,7 +102,13 @@ private GameObject whatSlotToEquip;
         }
         return new GameObject();
     }
-    public bool checkIfFull()
+
+
+
+
+
+
+    public bool CheckIfFull()
     {
         
         int counter = 0;
@@ -131,9 +131,4 @@ private GameObject whatSlotToEquip;
                 return false;
             }
         }
-
-    internal bool CheckIfFull()
-    {
-        throw new NotImplementedException();
-    }
 }
